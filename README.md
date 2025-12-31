@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# Soluciones Ferreteras - Website Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Professional website for Soluciones Ferreteras, showcasing high-quality plumbing and faucet products.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a React-based web application built to display Soluciones Ferreteras' product catalog with a modern, industrial-professional design. The site features a landing page, product catalog, product detail views, and a contact form.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19
+- **Language**: TypeScript (strict mode)
+- **Build Tool**: Vite 7
+- **Styling**: Tailwind CSS v4
+- **Routing**: React Router v6 (to be added)
+- **Forms**: React Hook Form + Zod (to be added)
+- **Testing**: Vitest + React Testing Library + Playwright (to be added)
+- **Hosting**: Firebase Hosting (to be configured)
 
-## Expanding the ESLint configuration
+## Design System
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The application uses a custom color palette derived from the company logo:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Brand Red**: `#C41E3A` (Primary accent, CTAs)
+- **Brand Red Dark**: `#A01830` (Hover states)
+- **Gray Dark**: `#333333` (Primary text, headers)
+- **Gray Medium**: `#666666` (Secondary text)
+- **Gray Light**: `#E0E0E0` (Borders, dividers)
+- **Gray Lighter**: `#F5F5F5` (Section backgrounds)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+- Node.js 18+
+- npm 10+
+
+### Installation
+
+1. Clone the repository and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and visit `http://localhost:5173`
+
+## Available Scripts
+
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Run ESLint and auto-fix issues
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/    # Reusable React components
+│   ├── pages/         # Page components (Home, Catalog, Contact, etc.)
+│   ├── types/         # TypeScript type definitions
+│   ├── utils/         # Utility functions
+│   ├── assets/        # Static assets (images, icons)
+│   ├── App.tsx        # Main App component
+│   ├── main.tsx       # Application entry point
+│   └── index.css      # Global styles and Tailwind config
+├── public/            # Static files
+└── docs/              # Project documentation (in parent directory)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development Guidelines
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- All code must pass TypeScript strict mode checks
+- Follow ESLint and Prettier configurations
+- Use Tailwind utility classes for styling
+- Maintain component modularity and reusability
+- Write meaningful commit messages
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Product Data
+
+Product information is loaded from:
+- Descriptions: `../docs/DESCRIPCIONES.md`
+- Images: `../docs/images/` (pattern: `{PRODUCT_CODE}-{NUMBER}.extension`)
+- Logo: `../docs/logo/logo.png`
+
+## License
+
+Private - Soluciones Ferreteras
+
+## Contact
+
+For questions or support, please use the contact form on the website.
