@@ -1,0 +1,79 @@
+[
+  {
+    "id": "ft2011b",
+    "code": "FT2011B",
+    "name": "MONOCONTROL LAVAMANOS BAJO CUADRADO NEGRO MATE",
+    "description": "MONOCONTROL LAVAMANOS BAJO CUADRADO NEGRO MATE",
+    "images": [
+      "/images/FT2011B-1.webp",
+      "/images/FT2011B-2.webp",
+      "/images/FT2011B-3.webp",
+      "/images/FT2011B-4.webp",
+      "/images/FT2011B-5.webp"
+    ]
+  },
+  {
+    "id": "ft2012b",
+    "code": "FT2012B",
+    "name": "MONOCONTROL LAVAMANOS ALTO CUADRADO NEGRO MATE",
+    "description": "MONOCONTROL LAVAMANOS ALTO CUADRADO NEGRO MATE",
+    "images": [
+      "/images/FT2012B-1.webp",
+      "/images/FT2012B-2.webp",
+      "/images/FT2012B-3.webp",
+      "/images/FT2012B-4.webp",
+      "/images/FT2012B-5.webp"
+    ]
+  },
+  {
+    "id": "ft2020b",
+    "code": "FT2020B",
+    "name": "MONOCONTROL LAVAMANOS ALTO MILAN NEGRO",
+    "description": "MONOCONTROL LAVAMANOS ALTO MILAN NEGRO",
+    "images": [
+      "/images/FT2020B-1.webp",
+      "/images/FT2020B-2.webp",
+      "/images/FT2020B-3.webp",
+      "/images/FT2020B-4.webp",
+      "/images/FT2020B-6.webp"
+    ]
+  },
+  {
+    "id": "ft6185b",
+    "code": "FT6185B",
+    "name": "LLAVE LAVAMANOS ALTA AGUA FRIA CUELLO CURVO PLANO NEGRO MATE",
+    "description": "LLAVE LAVAMANOS ALTA AGUA FRIA CUELLO CURVO PLANO NEGRO MATE",
+    "images": [
+      "/images/FT6185B-1.webp",
+      "/images/FT6185B-2.webp",
+      "/images/FT6185B-3.webp",
+      "/images/FT6185B-4.webp"
+    ]
+  },
+  {
+    "id": "ft6186s",
+    "code": "FT6186S",
+    "name": "LLAVE LAVAMANOS ALTA AGUA FRIA CUELLO CURVO SATIN",
+    "description": "LLAVE LAVAMANOS ALTA AGUA FRIA CUELLO CURVO SATIN",
+    "images": [
+      "/images/FT6186S-1.webp",
+      "/images/FT6186S-2.webp",
+      "/images/FT6186S-3.webp"
+    ]
+  },
+  {
+    "id": "ft8019b",
+    "code": "FT8019B",
+    "name": "MONOCONTROL LAVAMANOS ALTO CASCADA",
+    "description": "MONOCONTROL LAVAMANOS ALTO CASCADA",
+    "images": [
+      "/images/FT8019B-1.webp",
+      "/images/FT8019B-2.webp",
+      "/images/FT8019B-3.webp",
+      "/images/FT8019B-4.webp",
+      "/images/FT8019B-5.webp",
+      "/images/FT8019B-6.webp",
+      "/images/FT8019B-7.webp"
+    ]
+  }
+]
