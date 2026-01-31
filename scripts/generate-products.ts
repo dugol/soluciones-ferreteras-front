@@ -57,7 +57,11 @@ function matchProductImages(
 
   const files = fs.readdirSync(imagesDir);
 
-  // First, collect all images
+  // Sort product codes by length descending to match longest codes first
+  // (e.g., "ZW-B-010" before "ZW-B" if both existed)
+  const sortedCodes = [...productCodes].sort((a, b) => b.length - a.length);
+
+  // First, collect all images by matching against known product codes
   const imagesByCodeAndNumber = new Map<string, Map<string, string[]>>();
 
   for (const file of files) {
@@ -67,20 +71,25 @@ function matchProductImages(
     const stat = fs.statSync(path.join(imagesDir, file));
     if (stat.isDirectory()) continue;
 
-    // Extract product code from filename
-    // Pattern: FT2011B-1.jpg -> FT2011B
-    const match = file.match(/^([A-Z0-9]+)-(\d+)\.(jpg|jpeg|png|webp)$/i);
-    if (match) {
-      const [, code, number] = match;
-      if (productImages.has(code)) {
-        if (!imagesByCodeAndNumber.has(code)) {
-          imagesByCodeAndNumber.set(code, new Map());
+    // Match filename against known product codes
+    // Pattern: {CODE}-{number}.{ext} (supports codes with hyphens)
+    for (const code of sortedCodes) {
+      const prefix = `${code}-`;
+      if (file.toUpperCase().startsWith(prefix.toUpperCase())) {
+        const remainder = file.substring(prefix.length);
+        const match = remainder.match(/^(\d+)\.(jpg|jpeg|png|webp)$/i);
+        if (match) {
+          const number = match[1];
+          if (!imagesByCodeAndNumber.has(code)) {
+            imagesByCodeAndNumber.set(code, new Map());
+          }
+          const codeMap = imagesByCodeAndNumber.get(code)!;
+          if (!codeMap.has(number)) {
+            codeMap.set(number, []);
+          }
+          codeMap.get(number)!.push(file);
+          break;
         }
-        const codeMap = imagesByCodeAndNumber.get(code)!;
-        if (!codeMap.has(number)) {
-          codeMap.set(number, []);
-        }
-        codeMap.get(number)!.push(file);
       }
     }
   }
@@ -89,9 +98,9 @@ function matchProductImages(
   for (const [code, numberMap] of imagesByCodeAndNumber.entries()) {
     for (const [, files] of numberMap.entries()) {
       // Prefer webp, then jpg/jpeg, then png
-      const webp = files.find((f) => f.endsWith('.webp'));
+      const webp = files.find((f) => /\.webp$/i.test(f));
       const jpg = files.find((f) => /\.(jpg|jpeg)$/i.test(f));
-      const png = files.find((f) => f.endsWith('.png'));
+      const png = files.find((f) => /\.png$/i.test(f));
 
       const selectedFile = webp || jpg || png;
       if (selectedFile) {

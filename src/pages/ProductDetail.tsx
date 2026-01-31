@@ -6,6 +6,7 @@ import { getProductSchema } from '../utils/structuredData';
 import Breadcrumb from '../components/Breadcrumb';
 import ImageGallery from '../components/ImageGallery';
 import { useQuoteCart } from '../context/QuoteCartContext';
+import { usePrices } from '../context/PriceContext';
 
 /**
  * ProductDetail page - Story 2.3 & 2.4
@@ -16,6 +17,7 @@ function ProductDetail() {
   const { productCode } = useParams<{ productCode: string }>();
   const [quantity, setQuantity] = useState(1);
   const { addToCart, isInCart, getItemQuantity } = useQuoteCart();
+  const { getPrice, formatPrice, loading: pricesLoading } = usePrices();
 
   // Fetch product data using the productCode from URL
   const product = productCode ? getProductByCode(productCode.toUpperCase()) : undefined;
@@ -150,17 +152,21 @@ function ProductDetail() {
 
           {/* Right Column: Product Info (40% on desktop) */}
           <div className="lg:col-span-2">
-            {/* Product Code Badge */}
-            <div className="mb-3 inline-block rounded bg-gray-lighter px-3 py-1">
-              <span className="font-mono text-xs uppercase tracking-wide text-gray-medium">
-                {product.code}
-              </span>
-            </div>
-
             {/* Product Name */}
-            <h1 className="mb-6 text-3xl font-bold leading-tight text-gray-dark md:text-4xl">
+            <h1 className="mb-4 text-3xl font-bold leading-tight text-gray-dark md:text-4xl">
               {product.name}
             </h1>
+
+            {/* Price */}
+            {pricesLoading ? (
+              <div className="mb-6 h-8 w-32 animate-pulse rounded bg-gray-light" />
+            ) : (
+              getPrice(product.code) !== null && (
+                <p className="mb-6 text-2xl font-bold text-brand-red">
+                  {formatPrice(getPrice(product.code)!)}
+                </p>
+              )
+            )}
 
             {/* Product Description */}
             <div className="mb-8 border-t border-gray-light pt-6">

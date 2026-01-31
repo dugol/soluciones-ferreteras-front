@@ -2,12 +2,14 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import { QuoteCartProvider } from './context/QuoteCartContext';
+import { PriceProvider } from './context/PriceContext';
 
 // Lazy-loaded route components for code splitting
 const Home = lazy(() => import('./pages/Home'));
 const Catalog = lazy(() => import('./pages/Catalog'));
 const Contact = lazy(() => import('./pages/Contact'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Precios = lazy(() => import('./pages/Precios'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -21,20 +23,23 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <QuoteCartProvider>
-      <BrowserRouter>
-        <Layout>
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/griferia" element={<Catalog />} />
-              <Route path="/griferia/:productCode" element={<ProductDetail />} />
-              <Route path="/contacto" element={<Contact />} />
-            </Routes>
-          </Suspense>
-        </Layout>
-      </BrowserRouter>
-    </QuoteCartProvider>
+    <PriceProvider>
+      <QuoteCartProvider>
+        <BrowserRouter>
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/griferia" element={<Catalog />} />
+                <Route path="/griferia/:productCode" element={<ProductDetail />} />
+                <Route path="/contacto" element={<Contact />} />
+                <Route path="/precios" element={<Precios />} />
+              </Routes>
+            </Suspense>
+          </Layout>
+        </BrowserRouter>
+      </QuoteCartProvider>
+    </PriceProvider>
   );
 }
 

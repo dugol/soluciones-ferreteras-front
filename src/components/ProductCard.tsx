@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { Product } from '../types/product';
 import { useQuoteCart } from '../context/QuoteCartContext';
+import { usePrices } from '../context/PriceContext';
 
 interface ProductCardProps {
   product: Product;
@@ -17,6 +18,8 @@ interface ProductCardProps {
 function ProductCard({ product }: ProductCardProps) {
   const firstImage = product.images[0] || '/placeholder.png';
   const { addToCart, isInCart } = useQuoteCart();
+  const { getPrice, formatPrice, loading: pricesLoading } = usePrices();
+  const price = getPrice(product.code);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,26 +42,32 @@ function ProductCard({ product }: ProductCardProps) {
       className="group block overflow-hidden rounded-md border border-gray-light bg-white transition-all duration-200 hover:scale-105 hover:shadow-xl"
     >
       {/* Product Image - 1:1 aspect ratio */}
-      <div className="relative aspect-square w-full overflow-hidden bg-gray-lighter">
+      <div className="relative aspect-square w-full overflow-hidden bg-white">
         <img
           src={firstImage}
           alt={`${product.code} - ${product.name}`}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
         />
       </div>
 
       {/* Product Info */}
       <div className="p-4">
-        {/* Product Code */}
-        <p className="mb-1 text-xs font-mono uppercase text-gray-medium">
-          {product.code}
-        </p>
-
         {/* Product Name - truncated to 2 lines */}
         <h3 className="mb-3 line-clamp-2 text-base font-medium text-gray-dark">
           {product.name}
         </h3>
+
+        {/* Price */}
+        {pricesLoading ? (
+          <div className="mb-3 h-6 w-24 animate-pulse rounded bg-gray-light" />
+        ) : (
+          price !== null && (
+            <p className="mb-3 text-lg font-semibold text-brand-red">
+              {formatPrice(price)}
+            </p>
+          )
+        )}
 
         {/* Add to Quote Button */}
         <button

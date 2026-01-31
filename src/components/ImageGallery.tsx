@@ -166,9 +166,9 @@ function ImageGallery({ images, productCode, productName }: ImageGalleryProps) {
         <img
           src={currentImage}
           alt={altText}
-          className={`h-auto w-full cursor-pointer object-contain transition-opacity duration-300 ${
+          className={`max-h-[500px] md:max-h-[600px] w-full cursor-pointer object-contain transition-opacity duration-300 ${
             loadedImages.has(selectedIndex) ? 'opacity-100' : 'opacity-0'
-          } min-h-[300px] md:min-h-[500px]`}
+          } min-h-[300px] md:min-h-[400px]`}
           loading={selectedIndex === 0 ? 'eager' : 'lazy'}
           onClick={openLightbox}
           onLoad={() => handleImageLoad(selectedIndex)}

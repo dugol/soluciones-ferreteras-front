@@ -69,9 +69,6 @@ function Home() {
                   />
                 </div>
                 <div className="p-4">
-                  <p className="mb-2 font-mono text-xs uppercase text-gray-medium">
-                    {product.code}
-                  </p>
                   <h3 className="line-clamp-2 text-base font-medium text-gray-dark">
                     {product.name}
                   </h3>
