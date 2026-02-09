@@ -1,7 +1,9 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState, lazy, Suspense } from 'react';
 import { useQuoteCart } from '../context/QuoteCartContext';
 import type { QuoteCartItem } from '../types/quoteCart';
 import { openWhatsAppQuote } from '../utils/whatsapp';
+
+const QuoteFormModal = lazy(() => import('./QuoteFormModal'));
 
 interface QuoteCartDrawerProps {
   onClose: () => void;
@@ -18,6 +20,7 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [clearAfterSend, setClearAfterSend] = useState(false);
+  const [showPdfModal, setShowPdfModal] = useState(false);
 
   // Handle WhatsApp quote submission
   const handleSendWhatsApp = useCallback(() => {
@@ -174,6 +177,29 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
               Enviar Cotización por WhatsApp
             </button>
 
+            {/* PDF Quote Button */}
+            <button
+              onClick={() => setShowPdfModal(true)}
+              className="mb-3 flex w-full items-center justify-center gap-2 rounded-md border-2 border-brand-red px-4 py-3 font-medium text-brand-red transition-colors hover:bg-brand-red hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2"
+              aria-label="Generar cotización en PDF"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              Generar Cotización PDF
+            </button>
+
             {/* Clear cart after send checkbox */}
             <label className="mb-3 flex cursor-pointer items-center gap-2 text-sm text-gray-medium">
               <input
@@ -203,6 +229,13 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
           </div>
         )}
       </div>
+
+      {/* PDF Quote Modal */}
+      {showPdfModal && (
+        <Suspense fallback={null}>
+          <QuoteFormModal onClose={() => setShowPdfModal(false)} />
+        </Suspense>
+      )}
     </div>
   );
 }
