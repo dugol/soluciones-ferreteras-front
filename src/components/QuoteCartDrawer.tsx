@@ -18,6 +18,7 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
   const { items, itemCount, removeFromCart, updateQuantity, clearCart } =
     useQuoteCart();
   const drawerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [clearAfterSend, setClearAfterSend] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
@@ -35,6 +36,11 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
     // Focus the close button when drawer opens
     closeButtonRef.current?.focus();
 
+    // Reset content scroll to top when drawer opens
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+
     // Handle escape key
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -42,13 +48,36 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
       }
     };
 
-    // Prevent body scroll when drawer is open
-    document.body.style.overflow = 'hidden';
+    // Prevent scroll propagation
+    const handleWheel = (e: WheelEvent) => {
+      const content = contentRef.current;
+      if (!content) return;
 
+      const { scrollTop, scrollHeight, clientHeight } = content;
+      const isScrollingDown = e.deltaY > 0;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+
+      // Prevent scroll from propagating to body
+      if ((isScrollingDown && isAtBottom) || (!isScrollingDown && isAtTop)) {
+        e.preventDefault();
+      }
+    };
+
+    // Prevent body scroll when drawer is open
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    const content = contentRef.current;
+    content?.addEventListener('wheel', handleWheel, { passive: false });
     document.addEventListener('keydown', handleKeyDown);
+
     return () => {
+      content?.removeEventListener('wheel', handleWheel);
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   }, [onClose]);
 
@@ -84,7 +113,8 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-end"
+      className="fixed inset-0 z-50 flex h-screen w-screen justify-end"
+      style={{ height: '100dvh' }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="cart-title"
@@ -99,7 +129,8 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
       {/* Drawer Panel */}
       <div
         ref={drawerRef}
-        className="relative flex h-full w-full flex-col bg-white shadow-xl md:max-w-md"
+        className="relative flex h-screen w-full flex-col overflow-hidden bg-white shadow-xl md:max-w-md"
+        style={{ height: '100dvh' }}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-light px-4 py-4 md:px-6">
@@ -138,7 +169,10 @@ function QuoteCartDrawer({ onClose }: QuoteCartDrawerProps) {
         </div>
 
         {/* Cart Contents */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 md:px-6">
+        <div
+          ref={contentRef}
+          className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 md:px-6"
+        >
           {items.length === 0 ? (
             <EmptyCartState />
           ) : (

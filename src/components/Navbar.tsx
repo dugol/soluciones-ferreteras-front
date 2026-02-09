@@ -11,10 +11,9 @@ function Navbar() {
   const location = useLocation();
   const { itemCount } = useQuoteCart();
 
-  // Handle scroll for shadow effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -37,48 +36,56 @@ function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 bg-white transition-shadow duration-200 ${
-        isScrolled ? 'shadow-md' : ''
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.05),0_4px_20px_-4px_rgba(0,0,0,0.1)]'
+          : 'bg-white'
       }`}
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-16">
-        <div className="flex h-16 items-center justify-between md:h-20">
+      {/* Top accent line */}
+      <div className="h-[2px] bg-gradient-to-r from-chrome-400 via-crimson-500 to-chrome-400" />
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <div className="flex h-18 items-center justify-between md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="group flex-shrink-0">
             <img
               src="/logo.png"
               alt="Soluciones Ferreteras"
-              className="h-12 md:h-15"
+              className="h-11 transition-transform duration-300 group-hover:scale-105 md:h-14"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:gap-8">
+          <div className="hidden md:flex md:items-center md:gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative text-base font-medium transition-colors hover:text-brand-red ${
+                className={`relative px-5 py-2 text-sm font-medium tracking-wide uppercase transition-colors duration-200 ${
                   isActiveLink(link.path)
-                    ? 'text-brand-red'
-                    : 'text-gray-dark'
+                    ? 'text-crimson-500'
+                    : 'text-chrome-700 hover:text-chrome-900'
                 }`}
               >
                 {link.label}
                 {isActiveLink(link.path) && (
-                  <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-brand-red" />
+                  <span className="absolute bottom-0 left-5 right-5 h-[2px] bg-crimson-500" />
                 )}
               </Link>
             ))}
 
-            {/* Cart Icon - Desktop */}
+            {/* Divider */}
+            <div className="mx-3 h-6 w-px bg-chrome-200" />
+
+            {/* Quote Icon */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative ml-2 flex h-11 w-11 items-center justify-center rounded-md text-gray-dark transition-colors hover:bg-gray-lighter hover:text-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2"
+              className="group relative flex items-center gap-2 rounded-full bg-chrome-50 px-4 py-2 transition-all duration-200 hover:bg-chrome-100"
               aria-label={`Ver cotización (${itemCount} productos)`}
             >
               <svg
-                className="h-6 w-6"
+                className="h-5 w-5 text-chrome-600 transition-colors group-hover:text-chrome-900"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -87,28 +94,31 @@ function Navbar() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  strokeWidth={1.5}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
+              <span className="text-xs font-medium text-chrome-600 group-hover:text-chrome-900">
+                Cotización
+              </span>
               {itemCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand-red text-xs font-bold text-white">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-crimson-500 text-[10px] font-bold text-white">
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}
             </button>
           </div>
 
-          {/* Mobile: Cart Icon + Hamburger */}
-          <div className="flex items-center gap-1 md:hidden">
-            {/* Cart Icon - Mobile */}
+          {/* Mobile: Quote Icon + Hamburger */}
+          <div className="flex items-center gap-2 md:hidden">
+            {/* Quote Icon - Mobile */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative flex h-11 w-11 items-center justify-center rounded-md text-gray-dark transition-colors hover:bg-gray-lighter hover:text-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2"
+              className="group relative flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-chrome-100"
               aria-label={`Ver cotización (${itemCount} productos)`}
             >
               <svg
-                className="h-6 w-6"
+                className="h-5 w-5 text-chrome-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -117,12 +127,12 @@ function Navbar() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  strokeWidth={1.5}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
               {itemCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand-red text-xs font-bold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-crimson-500 text-[10px] font-bold text-white">
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}
@@ -131,23 +141,23 @@ function Navbar() {
             {/* Hamburger Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex h-11 w-11 flex-col items-center justify-center gap-1.5"
+              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full transition-colors hover:bg-chrome-100"
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
             >
               <span
-                className={`h-0.5 w-6 bg-gray-dark transition-all duration-200 ${
-                  isMenuOpen ? 'translate-y-2 rotate-45' : ''
+                className={`h-[2px] w-5 bg-chrome-700 transition-all duration-300 ${
+                  isMenuOpen ? 'translate-y-[5px] rotate-45' : ''
                 }`}
               />
               <span
-                className={`h-0.5 w-6 bg-gray-dark transition-all duration-200 ${
+                className={`h-[2px] w-5 bg-chrome-700 transition-all duration-300 ${
                   isMenuOpen ? 'opacity-0' : ''
                 }`}
               />
               <span
-                className={`h-0.5 w-6 bg-gray-dark transition-all duration-200 ${
-                  isMenuOpen ? '-translate-y-2 -rotate-45' : ''
+                className={`h-[2px] w-5 bg-chrome-700 transition-all duration-300 ${
+                  isMenuOpen ? '-translate-y-[5px] -rotate-45' : ''
                 }`}
               />
             </button>
@@ -156,26 +166,28 @@ function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="border-t border-gray-light bg-white md:hidden">
-          <div className="space-y-1 px-6 pb-4 pt-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={closeMobileMenu}
-                className={`block rounded-md px-3 py-2 text-base font-medium transition-colors ${
-                  isActiveLink(link.path)
-                    ? 'bg-gray-lighter text-brand-red'
-                    : 'text-gray-dark hover:bg-gray-lighter hover:text-brand-red'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+      <div
+        className={`overflow-hidden border-t border-chrome-100 bg-white transition-all duration-300 md:hidden ${
+          isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="space-y-1 px-6 py-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={closeMobileMenu}
+              className={`block rounded-lg px-4 py-3 text-sm font-medium tracking-wide uppercase transition-all duration-200 ${
+                isActiveLink(link.path)
+                  ? 'bg-chrome-50 text-crimson-500'
+                  : 'text-chrome-700 hover:bg-chrome-50 hover:text-chrome-900'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
-      )}
+      </div>
 
       {/* Quote Cart Drawer */}
       {isCartOpen && (

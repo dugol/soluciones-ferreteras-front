@@ -94,7 +94,7 @@ export async function generateQuotePDF(data: QuoteData): Promise<Blob> {
 
   doc.setFontSize(14);
   doc.setFont('helvetica', 'normal');
-  doc.text('Cotización', headerX, y + 16);
+  doc.text('Remisión', headerX, y + 16);
 
   doc.setFontSize(9);
   doc.text(`NIT: 98592727`, headerX, y + 22);
