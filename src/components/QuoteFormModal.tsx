@@ -121,7 +121,8 @@ function QuoteFormModal({ onClose }: QuoteFormModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center"
+      className="fixed inset-0 z-[60] flex h-screen w-screen items-center justify-center"
+      style={{ height: '100dvh' }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="quote-modal-title"
@@ -130,10 +131,10 @@ function QuoteFormModal({ onClose }: QuoteFormModalProps) {
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
 
-      {/* Modal Panel */}
+      {/* Modal Panel - Full screen on mobile, centered modal on desktop */}
       <div
         ref={modalRef}
-        className="relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-white shadow-2xl md:max-w-lg md:rounded-xl max-md:h-full"
+        className="relative flex h-full w-full flex-col overflow-hidden bg-white shadow-2xl md:h-auto md:max-h-[85vh] md:max-w-lg md:rounded-xl"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-light px-4 py-4 md:px-6">
